@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script>
+        $("document").ready(function () {
+            $("button").click(function () {
+                var xReq = new XMLHttpRequest();
+                xReq.open("GET", "cd_catalog.xml", true);
+                xReq.timeout = 2000;
+                xReq.ontimeout = function() {
+                    $("results").text("Request Timed out");
+                }
+                xReq.onreadystatechange = function(e) {
+                    if(this.readyState = 4 || xReq.readyState == XMLHTTPReadyState_COMPLETE){
+                        if(xReq.status = "200"){
+                             $("#results").text(xReq.response);
+                        } else {
+                            $("#results").text(xReq.statusText);
+                        }
+                    }
+                }
+                xReq.send(null);
+               
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+    <form action="submit.html">
+    <input type="url" title="Only .com and .ca are permitted."  pattern="^(?!(((https?)|(ftp)):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?).*$" placeholder="example.com" required/>
+    <button type="submit"> Submit me</button>
+    </form>
+    <div id="results"></div>
+
+</body>
+</html>
