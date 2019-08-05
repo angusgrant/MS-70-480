@@ -19,7 +19,18 @@
                 xReq.onreadystatechange = function(e) {
                     if(this.readyState = 4 || xReq.readyState == XMLHTTPReadyState_COMPLETE){
                         if(xReq.status = "200"){
-                             $("#results").text(xReq.response);
+                             let XMLdoc = $.parseXML(xReq.response);
+                             let $xml = $(XMLdoc);
+
+                             let returnValue = []; 
+                             function myFunc(total, num) {
+                                return total + num;
+                            }
+
+                              $xml.find('CD').each(function( index, value) {
+                                 returnValue[index] = Number($(this).find('PRICE').text());
+                             });
+                             $("#results").text(returnValue.reduce(myFunc)); 
                         } else {
                             $("#results").text(xReq.statusText);
                         }
